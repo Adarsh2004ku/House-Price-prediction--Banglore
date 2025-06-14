@@ -42,23 +42,22 @@ def predict():
         return render_template('result.html', price="⚠️ Model not loaded.")
 
     try:
-        # Get user input
         location = request.form.get('location')
         bhk = int(request.form.get('bhk'))
         bath = int(request.form.get('bath'))
         sqft = float(request.form.get('sqft'))
 
-        # Input validation
-        if not (1 <= bhk <= 10):
+        # Input validations
+        if bhk < 1 or bhk > 10:
             raise ValueError("BHK must be between 1 and 10.")
-        if not (1 <= bath <= 5):
+        if bath < 1 or bath > 5:
             raise ValueError("Bathrooms must be between 1 and 5.")
         if bath > bhk:
             raise ValueError("Bathrooms cannot be more than BHK.")
-        if not (200 <= sqft <= 10000):
+        if sqft < 200 or sqft > 10000:
             raise ValueError("Sqft must be between 200 and 10,000.")
 
-        # Prepare input
+        # Ensure input is DataFrame with correct structure
         input_df = pd.DataFrame([{
             'location': location,
             'total_sqft': sqft,
@@ -66,7 +65,7 @@ def predict():
             'bhk': bhk
         }])
 
-        # Predict
+        # Predict using the pipeline (which handles encoding)
         prediction = pipe.predict(input_df)[0]
         price_lakhs = round(prediction / 1_00_000, 2)
 
@@ -76,7 +75,4 @@ def predict():
         return render_template('result.html', price=f"❗ {str(ve)}")
 
     except Exception as e:
-        return render_template('result.html', price=f"⚠️ Error: {str(e)}")
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        return render_template('result.html', price=f"⚠️ Something went wrong: {str(e)}")
