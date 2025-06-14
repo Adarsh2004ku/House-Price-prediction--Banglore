@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+    <title>Estimated Price</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="page-title"><i class="fas fa-home home-icon"></i> Estimated Price</h1>
+        </header>
+
+        <div class="prediction-output">
+            {% if price is defined and price is number %}
+                <p class="price-display">₹ {{ "{:,.2f}".format(price) }} Lakhs</p>
+            {% else %}
+                <p class="error-message-large">
+                    The predicted price is: ₹ <i class="fas fa-exclamation-circle exclamation-icon"></i> {{ price }}
+                </p>
+            {% endif %}
+        </div>
+
+        <a href="/" class="back-button">
+            <i class="fas fa-redo-alt button-icon"></i> Predict Again
+        </a>
+
+        <footer class="footer">
+            <p>Made with <i class="fas fa-heart heart-icon"></i> by Adarsh Kumar</p>
+            <p>
+                <a href="https://github.com/Adarsh2004ku/bangalore-house-price-predictor" target="_blank" class="footer-link">GitHub</a>
+                <span class="separator">|</span>
+                <a href="mailto:adarsh2022ji@gmail.com" class="footer-link">Email</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

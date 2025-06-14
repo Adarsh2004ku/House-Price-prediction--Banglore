@@ -1,0 +1,294 @@
+/* Universal Box-Sizing for consistent model */
+* {
+    box-sizing: border-box;
+}
+
+/* General HTML and Body Styles for Centering and Background */
+html, body {
+    height: 100vh; /* Ensure html and body take full viewport height */
+    width: 100vw;  /* Ensure html and body take full viewport width */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrolling */
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    display: flex; /* Use flexbox on body to center content */
+    justify-content: center; /* Center horizontally */
+    align-items: center;     /* Center vertically */
+    background-color: #e6eff7; /* Light grey/blue background as per screenshot */
+}
+
+/* Container for the white card */
+.container {
+    background-color: #fff; /* White background for the card */
+    padding: 30px; /* Adjust padding for a compact look */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    width: 90%; /* Occupy a good percentage of viewport width */
+    max-width: 450px; /* Fixed max-width for the card */
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space out header, form, footer */
+    min-height: 400px; /* Minimum height for the card, adjust as needed */
+    max-height: 90vh; /* Ensure card doesn't exceed screen height on small devices */
+    overflow-y: auto; /* Allow internal scrolling if content overflows, but hide scrollbar */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+/* Header Styles */
+header {
+    margin-bottom: 25px; /* Space below header */
+    flex-shrink: 0;
+}
+
+.page-title {
+    color: #2b2d42; /* Darker text for titles */
+    font-size: 1.8em; /* Adjusted size for title */
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space between icon and text */
+}
+
+.home-icon {
+    color: #a8dadc; /* Light blue for home icon */
+    font-size: 1.2em;
+}
+
+/* Form Styles */
+.prediction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Space between form groups */
+    text-align: left;
+    flex-grow: 1; /* Allow form to grow */
+    justify-content: center; /* Center fields vertically */
+    padding-bottom: 10px; /* Small padding at bottom of form before button */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px; /* Space below label */
+    font-weight: 500;
+    color: #4a4e69; /* Slightly softer dark text for labels */
+    font-size: 0.95em;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and label text */
+}
+
+.form-group .icon {
+    color: #a8dadc; /* Icon color matching home icon */
+    font-size: 0.9em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+    width: 100%;
+    padding: 12px 15px; /* Padding for inputs */
+    border: 1px solid #ced4da; /* Light grey border */
+    border-radius: 8px; /* Rounded inputs */
+    font-size: 1em;
+    background-color: #f8f9fa; /* Very light background for inputs */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group select:focus {
+    border-color: #007bff; /* Blue focus border */
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle focus shadow */
+}
+
+/* Predict Button */
+.predict-button {
+    background-color: #2b2d42; /* Dark blue button */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 20px; /* Space above button */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space for icon */
+}
+
+.predict-button .button-icon {
+    font-size: 1em;
+}
+
+.predict-button:hover {
+    background-color: #3b3d5c; /* Slightly lighter dark blue on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Prediction Result Page Styles --- */
+.prediction-output {
+    margin: 25px 0;
+    padding: 25px;
+    background-color: #f8f9fa; /* Light background for output area */
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.prediction-output .price-display {
+    font-size: 2.5em; /* Large price display */
+    font-weight: 700;
+    color: #28a745; /* Green for success price */
+    margin: 0;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.error-message-large {
+    font-size: 1.1em;
+    color: #dc3545; /* Red for large error messages */
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.exclamation-icon {
+    color: #dc3545;
+}
+
+/* Predict Again Button (on result page) */
+.back-button {
+    background-color: #28a745; /* Green button */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none; /* Remove underline */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.back-button .button-icon {
+    font-size: 1em;
+}
+
+.back-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Footer Styles */
+.footer {
+    margin-top: 30px; /* Space above footer */
+    font-size: 0.85em;
+    color: #6c757d; /* Muted grey for footer text */
+    flex-shrink: 0;
+    line-height: 1.4;
+}
+
+.footer-link {
+    color: #007bff; /* Blue for footer links */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+    color: #0056b3; /* Darker blue on hover */
+    text-decoration: underline;
+}
+
+.heart-icon {
+    color: #dc3545; /* Red heart icon */
+    margin: 0 5px;
+}
+
+.separator {
+    margin: 0 8px; /* Space around separator */
+    color: #b2b2b2;
+}
+
+/* --- Inline Error Messages (for script.js validation) --- */
+.error-message {
+    color: #dc3545; /* Red for validation errors */
+    font-size: 0.8em;
+    margin-top: 5px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.input-error {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .page-title {
+        font-size: 1.6em;
+    }
+
+    .form-group label {
+        font-size: 0.9em;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group select {
+        padding: 10px 12px;
+        font-size: 0.9em;
+    }
+
+    .predict-button, .back-button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    .prediction-output .price-display {
+        font-size: 2.2em;
+    }
+
+    .error-message-large {
+        font-size: 1em;
+    }
+
+    .footer {
+        font-size: 0.8em;
+    }
+}

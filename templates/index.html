@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <title>Predict House Price</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="page-title"><i class="fas fa-home home-icon"></i> Predict House Price</h1>
+        </header>
+
+        <form action="/predict" method="post" class="prediction-form">
+            <div class="form-group">
+                <label for="location"><i class="fas fa-map-marker-alt icon"></i> Location</label>
+                <select name="location" id="location" required>
+                    {% for loc in locations %}
+                    <option value="{{ loc }}">{{ loc }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bhk"><i class="fas fa-bed icon"></i> BHK</label>
+                <input type="number" name="bhk" id="bhk" min="1" max="10" placeholder="e.g., 3" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bath"><i class="fas fa-bath icon"></i> Bathrooms</label>
+                <input type="number" name="bath" id="bath" min="1" max="5" placeholder="e.g., 2" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sqft"><i class="fas fa-th-large icon"></i> Total Sqft</label>
+                <input type="text" name="sqft" id="sqft" placeholder="e.g., 2000" required>
+            </div>
+
+            <button type="submit" class="predict-button">
+                <i class="fas fa-calculator button-icon"></i> Predict Price
+            </button>
+        </form>
+
+        <footer class="footer">
+            <p>Made with <i class="fas fa-heart heart-icon"></i> by Adarsh Kumar</p>
+            <p>
+                <a href="https://github.com/Adarsh2004ku/bangalore-house-price-predictor" target="_blank" class="footer-link">GitHub</a>
+                <span class="separator">|</span>
+                <a href="mailto:adarsh2022ji@gmail.com" class="footer-link">Email</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
