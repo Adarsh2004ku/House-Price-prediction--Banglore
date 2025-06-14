@@ -5,30 +5,23 @@ import os
 
 app = Flask(__name__)
 
-# Define safe base directory
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Load cleaned data
+# Load data
 try:
-    data_path = os.path.join(BASE_DIR, 'Cleaned_data.csv')
-    data = pd.read_csv(data_path)
-    
-    # Drop Unnamed column if present
-    if 'Unnamed: 0' in data.columns:
-        data.drop(columns=['Unnamed: 0'], inplace=True)
-
-    print("✅ Cleaned_data.csv loaded.")
+    data = pd.read_csv(os.path.join(BASE_DIR, 'Cleaned_data.csv'))
+    data.drop(columns=['Unnamed: 0'], errors='ignore', inplace=True)
+    print("✅ Data loaded.")
 except Exception as e:
-    print(f"❌ Failed to load Cleaned_data.csv: {e}")
+    print(f"❌ Error loading data: {e}")
     data = pd.DataFrame(columns=['location'])
 
-# Load trained model
+# Load model
 try:
-    model_path = os.path.join(BASE_DIR, 'lr.pkl')
-    pipe = load(model_path)
+    pipe = load(os.path.join(BASE_DIR, 'lr.pkl'))
     print("✅ Model loaded.")
 except Exception as e:
-    print(f"❌ Failed to load model: {e}")
+    print(f"❌ Error loading model: {e}")
     pipe = None
 
 @app.route('/')
@@ -38,26 +31,24 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    if pipe is None:
+    if not pipe:
         return render_template('result.html', price="⚠️ Model not loaded.")
 
     try:
-        location = request.form.get('location')
-        bhk = int(request.form.get('bhk'))
-        bath = int(request.form.get('bath'))
-        sqft = float(request.form.get('sqft'))
+        location = request.form['location']
+        bhk = int(request.form['bhk'])
+        bath = int(request.form['bath'])
+        sqft = float(request.form['sqft'])
 
-        # Input validations
-        if bhk < 1 or bhk > 10:
+        if not (1 <= bhk <= 10):
             raise ValueError("BHK must be between 1 and 10.")
-        if bath < 1 or bath > 5:
+        if not (1 <= bath <= 5):
             raise ValueError("Bathrooms must be between 1 and 5.")
         if bath > bhk:
-            raise ValueError("Bathrooms cannot be more than BHK.")
-        if sqft < 200 or sqft > 10000:
+            raise ValueError("Bathrooms can't exceed BHK.")
+        if not (200 <= sqft <= 10000):
             raise ValueError("Sqft must be between 200 and 10,000.")
 
-        # Ensure input is DataFrame with correct structure
         input_df = pd.DataFrame([{
             'location': location,
             'total_sqft': sqft,
@@ -65,14 +56,15 @@ def predict():
             'bhk': bhk
         }])
 
-        # Predict using the pipeline (which handles encoding)
         prediction = pipe.predict(input_df)[0]
         price_lakhs = round(prediction / 1_00_000, 2)
 
         return render_template('result.html', price=f"₹ {price_lakhs:,} Lakhs")
 
     except ValueError as ve:
-        return render_template('result.html', price=f"❗ {str(ve)}")
-
+        return render_template('result.html', price=f"❗ {ve}")
     except Exception as e:
-        return render_template('result.html', price=f"⚠️ Something went wrong: {str(e)}")
+        return render_template('result.html', price=f"⚠️ Error: {e}")
+
+if __name__ == '__main__':
+    app.run(debug=True)
